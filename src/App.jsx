@@ -1,7 +1,12 @@
 import "./App.css";
+import General from "./components/General";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <General />
+    </>
+  );
 }
 
 export default App;
