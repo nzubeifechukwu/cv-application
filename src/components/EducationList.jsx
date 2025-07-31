@@ -50,10 +50,26 @@ function EducationItem() {
 }
 
 export default function EducationList() {
-  // console.log(educationDetails);
+  const [addedEducation, setAddedEducation] = useState(false);
+  const [educationItemCount, setEducationItemCount] = useState(0);
+  const educationItemList = [];
+
+  if (addedEducation) {
+    for (let i = 0; i < educationItemCount; i++) {
+      educationItemList.push(<EducationItem />);
+    }
+    setAddedEducation(!addedEducation);
+  }
+
+  function handleClick() {
+    setEducationItemCount(educationItemCount + 1);
+    setAddedEducation(!addedEducation);
+  }
+
   return (
     <section>
-      <EducationItem />
+      {educationItemList.map((item) => item)}
+      <button onClick={handleClick}>Add Education</button>
     </section>
   );
 }
