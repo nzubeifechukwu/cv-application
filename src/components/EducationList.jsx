@@ -1,9 +1,7 @@
 import { useState } from "react";
-// import { educationDetails } from "../utils/data";
 
 function EducationItem() {
   const [education, setEducation] = useState({
-    // id: initId,
     school: "",
     course: "",
   });
@@ -11,14 +9,10 @@ function EducationItem() {
 
   function handleSchoolInput(e) {
     setEducation({ ...education, school: e.target.value });
-    // educationDetails[education.id] = education; // Update educationDetails after editing
-    // educationDetails.splice(education.id, 1, education);
   }
 
   function handleCourseInput(e) {
     setEducation({ ...education, course: e.target.value });
-    // educationDetails[education.id] = education; // Update educationDetails after editing
-    // educationDetails.splice(education.id, 1, education);
   }
 
   return (
@@ -52,11 +46,11 @@ function EducationItem() {
 export default function EducationList() {
   const [addedEducation, setAddedEducation] = useState(false);
   const [educationItemCount, setEducationItemCount] = useState(0);
-  const educationItemList = [];
+  const [educationItemList, setEducationItemList] = useState([]);
 
   if (addedEducation) {
     for (let i = 0; i < educationItemCount; i++) {
-      educationItemList.push(<EducationItem />);
+      setEducationItemList([...educationItemList, <EducationItem key={i} />]);
     }
     setAddedEducation(!addedEducation);
   }
