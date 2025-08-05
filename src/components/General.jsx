@@ -16,7 +16,7 @@ export default function General() {
           <button onClick={() => setEdited(!edited)}>Edit</button>
         </section>
       ) : (
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="">Name </label>
           <input
             type="text"

@@ -1,28 +1,30 @@
 import { useState } from "react";
 
-function EducationItem({ submitted, onAdd, editedProp, onEdit }) {
+/**
+ * EducationItem component: child of EducationList component
+ * @prop notSubmitted (Boolean) - to toggle disable status of Add Education button
+ *                             when there is editable form to add new education item
+ * @prop onAdd (function) - handles the notSubmitted prop. Will be triggered by Submit button
+ * @prop notEdited (Boolean) - to toggle disable status of Add Education button
+ *                              when editing an education item
+ * @prop onEdit (function) - handles the notEdited prop. Will be triggered by Edit button
+ */
+function EducationItem({ notSubmitted, onAdd, notEdited, onEdit }) {
+  // Use to show when you're editing a form or the results after editing
+  const [edited, setEdited] = useState(false);
   const [education, setEducation] = useState({
     school: "",
     course: "",
   });
-  const [edited, setEdited] = useState(false);
-
-  function handleSchoolInput(e) {
-    setEducation({ ...education, school: e.target.value });
-  }
-
-  function handleCourseInput(e) {
-    setEducation({ ...education, course: e.target.value });
-  }
 
   function handleSubmit() {
-    setEdited(!edited);
-    onAdd(submitted);
+    setEdited(!edited); // set edited to true, thus displaying result after editing
+    onAdd(notSubmitted); // for Submit button
   }
 
   function handleEdit() {
-    setEdited(!edited);
-    onEdit(editedProp);
+    setEdited(!edited); // set edited to false, thus displaying form to add (or edit) education item
+    onEdit(notEdited); // for Edit button
   }
 
   return (
@@ -38,13 +40,17 @@ function EducationItem({ submitted, onAdd, editedProp, onEdit }) {
           <input
             type="text"
             value={education.school}
-            onChange={(e) => handleSchoolInput(e)}
+            onChange={(e) =>
+              setEducation({ ...education, school: e.target.value })
+            }
           />
           <label htmlFor="">Course</label>
           <input
             type="text"
             value={education.course}
-            onChange={(e) => handleCourseInput(e)}
+            onChange={(e) =>
+              setEducation({ ...education, course: e.target.value })
+            }
           />
           <button onClick={handleSubmit}>Submit</button>
         </form>
@@ -57,40 +63,45 @@ export default function EducationList() {
   const [addedEducation, setAddedEducation] = useState(false);
   const [educationItemCount, setEducationItemCount] = useState(0);
   const [educationItemList, setEducationItemList] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
-  const [edited, setEdited] = useState(false);
+  const [notSubmitted, setNotSubmitted] = useState(false);
+  const [notEdited, setNotEdited] = useState(false);
 
+  // for Submit button
   function handleOnAdd() {
-    setSubmitted(false);
-    setEdited(false);
+    // Reset both states once you submit an education item (new or edited).
+    // This enables again the Add Education button
+    setNotSubmitted(false);
+    setNotEdited(false);
   }
 
+  // for Add Education button
+  function handleClick() {
+    setEducationItemCount(educationItemCount + 1);
+    setAddedEducation(true); // You're about to add new education item
+    setNotSubmitted(true); // Toggle NotSubmitted to true, thus disabling the Add Education button
+  }
+
+  // Runs only when you have clicked Add Education button (which turns on addedEducation state)
   if (addedEducation) {
     for (let i = 0; i < educationItemCount; i++) {
       setEducationItemList([
         ...educationItemList,
         <EducationItem
           key={i}
-          submitted={submitted}
-          editedProp={edited}
-          onAdd={() => handleOnAdd()}
-          onEdit={() => setEdited(true)}
+          notSubmitted={notSubmitted}
+          editedProp={notEdited}
+          onAdd={() => handleOnAdd()} // for Submit button
+          onEdit={() => setNotEdited(true)} // for Edit button
         />,
       ]);
     }
-    setAddedEducation(!addedEducation);
-  }
-
-  function handleClick() {
-    setEducationItemCount(educationItemCount + 1);
-    setAddedEducation(!addedEducation);
-    setSubmitted(true);
+    setAddedEducation(false); // reset addedEducation state after adding new education item
   }
 
   return (
     <section>
       {educationItemList.map((item) => item)}
-      <button onClick={handleClick} disabled={submitted || edited}>
+      <button onClick={handleClick} disabled={notSubmitted || notEdited}>
         Add Education
       </button>
     </section>
