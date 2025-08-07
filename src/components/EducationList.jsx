@@ -2,33 +2,37 @@ import { useState } from "react";
 
 /**
  * EducationItem component: child of EducationList component
+ *
  * @prop notSubmitted (Boolean) - to toggle disable status of Add Education button
  *                             when there is editable form to add new education item
  * @prop onAdd (function) - handles the notSubmitted prop. Triggered by Submit button
  * @prop notEdited (Boolean) - to toggle disable status of Add Education button
  *                              when editing an education item
  * @prop onEdit (function) - handles the notEdited prop. Triggered by Edit button
- * @prop onDelete (function) - handles delete functionality. Triggered by Delete button
  */
 function EducationItem({
   notSubmitted,
   onAdd,
   notEdited,
   onEdit,
-  // onDelete,
-  // id,
+  deleted,
+  onDelete,
 }) {
   // Use to show when you're editing a form or the results after editing
   const [edited, setEdited] = useState(false);
+  // const [deleted, setDeleted] = useState(false);
   const [education, setEducation] = useState({
-    // id: id, // I know that assigning a prop to a state is not best practice
     school: "",
     course: "",
   });
 
   function handleSubmit() {
-    setEdited(!edited); // set edited to true, thus displaying result after editing
-    onAdd(notSubmitted); // for Submit button
+    if (education.school && education.course) {
+      setEdited(!edited); // set edited to true, thus displaying result after editing
+      onAdd(notSubmitted); // for Submit button
+    } else {
+      alert("School or course cannot be empty");
+    }
   }
 
   function handleEdit() {
@@ -36,21 +40,23 @@ function EducationItem({
     onEdit(notEdited); // for Edit button
   }
 
+  function handleDelete() {
+    onDelete(deleted); // for Delete button
+    setEducation({});
+  }
+
   return (
     <>
-      {edited ? (
-        education.school &&
-        education.course && (
-          <article>
-            <h3>{`${education.school}: ${education.course}`}</h3>
-            <button onClick={handleEdit}>Edit</button>
-            <button onClick={() => setEducation({})}>Delete</button>
-          </article>
-        )
+      {edited && education.school && education.course ? (
+        <article>
+          <h3>{`${education.school}: ${education.course}`}</h3>
+          <button onClick={handleEdit}>Edit</button>
+          <button onClick={handleDelete}>Delete</button>
+        </article>
+      ) : deleted ? (
+        console.log("Print true")
       ) : (
         <form onSubmit={(e) => e.preventDefault()}>
-          {/* <label htmlFor="">Id (read only)</label>
-          <input type="text" readOnly value={education.id} /> */}
           <label htmlFor="">School</label>
           <input
             type="text"
@@ -80,6 +86,7 @@ export default function EducationList() {
   const [educationItemList, setEducationItemList] = useState([]);
   const [notSubmitted, setNotSubmitted] = useState(false);
   const [notEdited, setNotEdited] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   // for Submit button
   function handleOnAdd() {
@@ -94,30 +101,22 @@ export default function EducationList() {
     setEducationItemCount(educationItemCount + 1);
     setAddedEducation(true); // You're about to add new education item
     setNotSubmitted(true); // Toggle NotSubmitted to true, thus disabling the Add Education button
+    setDeleted(false);
   }
-
-  // for Delete button
-  // function handleOnDelete(id) {
-  //   setEducationItemList(
-  //     educationItemList.filter((item, index) => id !== index)
-  //   );
-  //   setEducationItemCount(educationItemCount - 1);
-  // }
 
   // Runs only when you click Add Education button (which turns on addedEducation state)
   if (addedEducation) {
     for (let i = 0; i < educationItemCount; i++) {
-      // const id = crypto.randomUUID();
       setEducationItemList([
         ...educationItemList,
         <EducationItem
-          // id={i}
           key={i}
           notSubmitted={notSubmitted}
           editedProp={notEdited}
+          deleted={deleted}
           onAdd={() => handleOnAdd()} // for Submit button
           onEdit={() => setNotEdited(true)} // for Edit button
-          // onDelete={() => handleOnDelete(i)}
+          onDelete={() => setDeleted(true)}
         />,
       ]);
     }
