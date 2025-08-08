@@ -15,8 +15,8 @@ function EducationItem({
   onAdd,
   notEdited,
   onEdit,
-  deleted,
-  onDelete,
+  // deleted,
+  // onDelete,
 }) {
   // Use to show when you're editing a form or the results after editing
   const [edited, setEdited] = useState(false);
@@ -27,7 +27,7 @@ function EducationItem({
   });
 
   function handleSubmit() {
-    if (education.school && education.course) {
+    if (education.school.trim() && education.course.trim()) {
       setEdited(!edited); // set edited to true, thus displaying result after editing
       onAdd(notSubmitted); // for Submit button
     } else {
@@ -40,22 +40,22 @@ function EducationItem({
     onEdit(notEdited); // for Edit button
   }
 
-  function handleDelete() {
-    onDelete(deleted); // for Delete button
-    setEducation({});
-  }
+  // function handleDelete() {
+  //   onDelete(deleted); // for Delete button
+  //   setEducation({});
+  // }
 
   return (
     <>
-      {edited && education.school && education.course ? (
+      {edited && education.school.trim() && education.course.trim() ? (
         <article>
-          <h3>{`${education.school}: ${education.course}`}</h3>
+          <h3>{`${education.school.trim()}: ${education.course.trim()}`}</h3>
           <button onClick={handleEdit}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+          {/* <button onClick={handleDelete}>Delete</button> */}
         </article>
-      ) : deleted ? (
-        console.log("Print true")
       ) : (
+        // ) : deleted ? (
+        //   console.log("Print true")
         <form onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="">School</label>
           <input
@@ -86,7 +86,7 @@ export default function EducationList() {
   const [educationItemList, setEducationItemList] = useState([]);
   const [notSubmitted, setNotSubmitted] = useState(false);
   const [notEdited, setNotEdited] = useState(false);
-  const [deleted, setDeleted] = useState(false);
+  // const [deleted, setDeleted] = useState(false);
 
   // for Submit button
   function handleOnAdd() {
@@ -101,7 +101,7 @@ export default function EducationList() {
     setEducationItemCount(educationItemCount + 1);
     setAddedEducation(true); // You're about to add new education item
     setNotSubmitted(true); // Toggle NotSubmitted to true, thus disabling the Add Education button
-    setDeleted(false);
+    // setDeleted(false);
   }
 
   // Runs only when you click Add Education button (which turns on addedEducation state)
@@ -113,10 +113,10 @@ export default function EducationList() {
           key={i}
           notSubmitted={notSubmitted}
           editedProp={notEdited}
-          deleted={deleted}
+          // deleted={deleted}
           onAdd={() => handleOnAdd()} // for Submit button
           onEdit={() => setNotEdited(true)} // for Edit button
-          onDelete={() => setDeleted(true)}
+          // onDelete={() => setDeleted(true)}
         />,
       ]);
     }
