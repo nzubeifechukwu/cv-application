@@ -20,7 +20,6 @@ function EducationItem({
 }) {
   // Use to show when you're editing a form or the results after editing
   const [edited, setEdited] = useState(false);
-  // const [deleted, setDeleted] = useState(false);
   const [education, setEducation] = useState({
     school: "",
     course: "",
