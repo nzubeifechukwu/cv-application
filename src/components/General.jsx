@@ -6,36 +6,48 @@ export default function General() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  function handleSubmit() {
+    if (name.trim() && email.trim() && phone.trim()) {
+      setEdited(!edited);
+    } else {
+      alert("Name or email or phone cannot be empty");
+    }
+  }
+
   return (
     <>
       {edited ? (
         <section>
-          <h1>{name}</h1>
-          <h3>{email}</h3>
-          <h3>{phone}</h3>
+          <h1>{name.trim()}</h1>
+          <h3>{email.trim()}</h3>
+          <h3>{phone.trim()}</h3>
           <button onClick={() => setEdited(!edited)}>Edit</button>
         </section>
       ) : (
         <form onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="">Name </label>
+          <h2>Enter your name, email and phone number</h2>
+          <label htmlFor="name">Name </label>
           <input
+            id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <label htmlFor="">Email </label>
+          <label htmlFor="email">Email </label>
           <input
+            id="email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label htmlFor="">Phone </label>
+          <label htmlFor="phone">Phone </label>
           <input
+            id="phone"
             type="text"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <button onClick={() => setEdited(!edited)}>Submit</button>
+          <button onClick={handleSubmit}>Submit</button>
         </form>
       )}
     </>

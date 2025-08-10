@@ -41,10 +41,7 @@ function ExperienceItem({ notSubmitted, onAdd, notEdited, onEdit }) {
 
   return (
     <>
-      {edited &&
-      experience.organisation.trim() &&
-      experience.role.trim() &&
-      experience.startDate.trim() ? (
+      {edited ? (
         <article>
           <h3>{`${experience.organisation.trim()} ${experience.startDate.trim()}–${experience.endDate.trim()}`}</h3>
           <dl>
@@ -53,46 +50,56 @@ function ExperienceItem({ notSubmitted, onAdd, notEdited, onEdit }) {
               experience.responsibilities
                 .trim()
                 .split(";")
-                .map((responsibility) => <dd>{responsibility}</dd>)}
+                .map((responsibility) => (
+                  <dd key={responsibility}>{responsibility}</dd>
+                ))}
           </dl>
           <button onClick={handleEdit}>Edit</button>
         </article>
       ) : (
         <form onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="">Organisation</label>
+          <h2>Enter your job details</h2>
+          <label htmlFor="organisation">Organisation</label>
           <input
+            id="organisation"
             type="text"
             value={experience.organisation}
             onChange={(e) =>
               setExperience({ ...experience, organisation: e.target.value })
             }
           />
-          <label htmlFor="">Role</label>
+          <label htmlFor="role">Role</label>
           <input
+            id="role"
             type="text"
             value={experience.role}
             onChange={(e) =>
               setExperience({ ...experience, role: e.target.value })
             }
           />
-          <label htmlFor="">Responsibilities (separate with semi-colons)</label>
+          <label htmlFor="responsibilities">
+            Responsibilities (separate with semi-colons)
+          </label>
           <input
+            id="responsibilities"
             type="text"
             value={experience.responsibilities}
             onChange={(e) =>
               setExperience({ ...experience, responsibilities: e.target.value })
             }
           />
-          <label htmlFor="">Start Date</label>
+          <label htmlFor="start_date">Start Date</label>
           <input
+            id="start_date"
             type="text"
             value={experience.startDate}
             onChange={(e) =>
               setExperience({ ...experience, startDate: e.target.value })
             }
           />
-          <label htmlFor="">End Date</label>
+          <label htmlFor="end_date">End Date</label>
           <input
+            id="end_date"
             type="text"
             value={experience.endDate}
             onChange={(e) =>
@@ -147,6 +154,7 @@ export default function ExperienceList() {
 
   return (
     <section>
+      <h2>Experience</h2>
       {experienceItemList.map((item) => item)}
       <button onClick={handleClick} disabled={notSubmitted || notEdited}>
         Add Experience
