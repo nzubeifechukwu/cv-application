@@ -9,6 +9,16 @@ function App() {
       <General />
       <EducationList />
       <ExperienceList />
+      <footer>
+        <small>
+          <a
+            href="https://github.com/nzubeifechukwu/cv-application"
+            target="_blank"
+          >
+            Built by Nzube Ifechukwu
+          </a>
+        </small>
+      </footer>
     </>
   );
 }
