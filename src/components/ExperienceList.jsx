@@ -43,7 +43,12 @@ function ExperienceItem({ notSubmitted, onAdd, notEdited, onEdit }) {
     <>
       {edited ? (
         <article>
-          <h3>{`${experience.organisation.trim()} ${experience.startDate.trim()}–${experience.endDate.trim()}`}</h3>
+          <p className="p-with-spans">
+            <span className="first">{experience.organisation.trim()}</span>
+            <span>
+              {experience.startDate.trim()}–{experience.endDate.trim()}
+            </span>
+          </p>
           <dl>
             <dt>{experience.role.trim()}</dt>
             {experience.responsibilities.trim() &&
@@ -54,59 +59,78 @@ function ExperienceItem({ notSubmitted, onAdd, notEdited, onEdit }) {
                   <dd key={responsibility}>{responsibility}</dd>
                 ))}
           </dl>
-          <button onClick={handleEdit}>Edit</button>
+          <button onClick={handleEdit} className="edit-btn">
+            Edit
+          </button>
         </article>
       ) : (
         <form onSubmit={(e) => e.preventDefault()}>
-          <h2>Enter your job details</h2>
-          <label htmlFor="organisation">Organisation</label>
-          <input
-            id="organisation"
-            type="text"
-            value={experience.organisation}
-            onChange={(e) =>
-              setExperience({ ...experience, organisation: e.target.value })
-            }
-          />
-          <label htmlFor="role">Role</label>
-          <input
-            id="role"
-            type="text"
-            value={experience.role}
-            onChange={(e) =>
-              setExperience({ ...experience, role: e.target.value })
-            }
-          />
-          <label htmlFor="responsibilities">
-            Responsibilities (separate with semi-colons)
-          </label>
-          <input
-            id="responsibilities"
-            type="text"
-            value={experience.responsibilities}
-            onChange={(e) =>
-              setExperience({ ...experience, responsibilities: e.target.value })
-            }
-          />
-          <label htmlFor="start_date">Start Date</label>
-          <input
-            id="start_date"
-            type="text"
-            value={experience.startDate}
-            onChange={(e) =>
-              setExperience({ ...experience, startDate: e.target.value })
-            }
-          />
-          <label htmlFor="end_date">End Date</label>
-          <input
-            id="end_date"
-            type="text"
-            value={experience.endDate}
-            onChange={(e) =>
-              setExperience({ ...experience, endDate: e.target.value })
-            }
-          />
-          <button onClick={handleSubmit}>Submit</button>
+          <p className="instruction">Enter your job details</p>
+          <div className="label-input">
+            <label htmlFor="organisation">Organisation</label>
+            <input
+              id="organisation"
+              type="text"
+              value={experience.organisation}
+              onChange={(e) =>
+                setExperience({ ...experience, organisation: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="role">Role</label>
+            <input
+              id="role"
+              type="text"
+              value={experience.role}
+              onChange={(e) =>
+                setExperience({ ...experience, role: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="responsibilities">
+              Responsibilities (separate with semi-colons)
+            </label>
+            <input
+              id="responsibilities"
+              type="text"
+              value={experience.responsibilities}
+              onChange={(e) =>
+                setExperience({
+                  ...experience,
+                  responsibilities: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="start_date">Start Date</label>
+            <input
+              id="start_date"
+              type="text"
+              value={experience.startDate}
+              onChange={(e) =>
+                setExperience({ ...experience, startDate: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="end_date">End Date</label>
+            <input
+              id="end_date"
+              type="text"
+              value={experience.endDate}
+              onChange={(e) =>
+                setExperience({ ...experience, endDate: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <button onClick={handleSubmit} className="submit-btn">
+              Submit
+            </button>
+          </div>
         </form>
       )}
     </>
@@ -154,9 +178,14 @@ export default function ExperienceList() {
 
   return (
     <section>
+      <hr />
       <h2>Experience</h2>
       {experienceItemList.map((item) => item)}
-      <button onClick={handleClick} disabled={notSubmitted || notEdited}>
+      <button
+        onClick={handleClick}
+        disabled={notSubmitted || notEdited}
+        className="add-btn"
+      >
         Add Experience
       </button>
     </section>

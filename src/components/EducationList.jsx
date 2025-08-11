@@ -43,50 +43,69 @@ function EducationItem({ notSubmitted, onAdd, notEdited, onEdit }) {
     <>
       {edited ? (
         <article>
-          <h3>{`${education.school.trim()} ${education.startDate.trim()}–${education.endDate.trim()}`}</h3>
+          <p className="p-with-spans">
+            <span className="first">{education.school.trim()}</span>
+            <span>
+              {education.startDate.trim()}–{education.endDate.trim()}
+            </span>
+          </p>
           <p>{education.course.trim()}</p>
-          <button onClick={handleEdit}>Edit</button>
+          <button onClick={handleEdit} className="edit-btn">
+            Edit
+          </button>
         </article>
       ) : (
         <form onSubmit={(e) => e.preventDefault()}>
-          <h2>Enter your education details</h2>
-          <label htmlFor="school">School</label>
-          <input
-            id="school"
-            type="text"
-            value={education.school}
-            onChange={(e) =>
-              setEducation({ ...education, school: e.target.value })
-            }
-          />
-          <label htmlFor="course">Course</label>
-          <input
-            id="course"
-            type="text"
-            value={education.course}
-            onChange={(e) =>
-              setEducation({ ...education, course: e.target.value })
-            }
-          />
-          <label htmlFor="start_date">Start Date</label>
-          <input
-            id="start_date"
-            type="text"
-            value={education.startDate}
-            onChange={(e) =>
-              setEducation({ ...education, startDate: e.target.value })
-            }
-          />
-          <label htmlFor="end_date">End Date</label>
-          <input
-            id="end_date"
-            type="text"
-            value={education.endDate}
-            onChange={(e) =>
-              setEducation({ ...education, endDate: e.target.value })
-            }
-          />
-          <button onClick={handleSubmit}>Submit</button>
+          <p className="instruction">Enter your education details</p>
+          <div className="label-input">
+            <label htmlFor="school">School</label>
+            <input
+              id="school"
+              type="text"
+              value={education.school}
+              onChange={(e) =>
+                setEducation({ ...education, school: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="course">Course</label>
+            <input
+              id="course"
+              type="text"
+              value={education.course}
+              onChange={(e) =>
+                setEducation({ ...education, course: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="start_date">Start Date</label>
+            <input
+              id="start_date"
+              type="text"
+              value={education.startDate}
+              onChange={(e) =>
+                setEducation({ ...education, startDate: e.target.value })
+              }
+            />
+          </div>
+          <div className="label-input">
+            <label htmlFor="end_date">End Date</label>
+            <input
+              id="end_date"
+              type="text"
+              value={education.endDate}
+              onChange={(e) =>
+                setEducation({ ...education, endDate: e.target.value })
+              }
+            />
+          </div>
+          <div>
+            <button onClick={handleSubmit} className="submit-btn">
+              Submit
+            </button>
+          </div>
         </form>
       )}
     </>
@@ -134,9 +153,14 @@ export default function EducationList() {
 
   return (
     <section>
+      <hr />
       <h2>Education</h2>
       {educationItemList.map((item) => item)}
-      <button onClick={handleClick} disabled={notSubmitted || notEdited}>
+      <button
+        onClick={handleClick}
+        disabled={notSubmitted || notEdited}
+        className="add-btn"
+      >
         Add Education
       </button>
     </section>
